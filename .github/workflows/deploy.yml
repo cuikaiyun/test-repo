@@ -15,7 +15,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: webpack artifacts
-          path: /README.md
+          path: test-repo/README.md
 
   deploy:
     name: Deploy Node.js app to AWS
