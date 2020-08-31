@@ -35,7 +35,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: build
-          remote: /test
+          remote: /build
           host: ${{ secrets.AWS_HOST_NAME }}
           username: ${{ secrets.AWS_USER_NAME }}
           privateKey: ${{ secrets.AWS_SSH_KEY }}
