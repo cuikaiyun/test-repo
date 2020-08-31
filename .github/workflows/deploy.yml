@@ -1,0 +1,39 @@
+name: UI deployment
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: webpack artifacts
+          path: /README.md
+
+  deploy:
+    name: Deploy Node.js app to AWS
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download built artifact
+        uses: actions/download-artifact@master
+        with:
+          name: webpack artifacts
+          path: build
+
+      - name: Copy webpack files to AWS
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: build
+          remote: /test
+          host: ${{ secrets.AWS_HOST_NAME }}
+          username: ${{ secrets.AWS_USER_NAME }}
+          privateKey: ${{ secrets.AWS_SSH_KEY }}
